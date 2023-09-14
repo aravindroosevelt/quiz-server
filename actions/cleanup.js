@@ -4,11 +4,11 @@ const { Room } = require("../models/Room");
 
 const cleanup = () => {
   Room.destroy({
-    where: { id: { [Op.gte]: 1 } },
+    where: { id: { [Op.ne]: null } },
   }).then(() => console.log("Done"));
 
   Player.destroy({
-    where: { id: { [Op.gte]: 1 } },
+    where: { id: { [Op.ne]: null } },
   }).then(() => console.log("Done"));
 };
 

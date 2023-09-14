@@ -1,22 +1,22 @@
 const { DataTypes } = require("sequelize");
 const { db } = require("../db");
 
-const Player = db.define("Player", {
+const Question = db.define("Question", {
   id: {
-    type: DataTypes.STRING,
-    primaryKey: true,
-  },
-  roomId: {
     type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  question: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  isActive: {
-    type: DataTypes.BOOLEAN,
+  answer: {
+    type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: true,
   },
 });
 
 module.exports = {
-  Player,
+  Question,
 };

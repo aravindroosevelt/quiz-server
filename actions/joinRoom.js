@@ -6,11 +6,14 @@ const joinRoom = async (socket, io, param) => {
     socket.join(param?.room?.name);
     socket.emit("joinRoom", {
       success: true,
+      room: param?.room?.name,
     });
     io.emit("refetchRooms");
   } catch (error) {
-    console.log("====== JOIN ERROR ======");
-    console.log(error?.message);
+    socket.emit("joinRoom", {
+      success: false,
+      msg: "You have already joined a room",
+    });
   }
 };
 

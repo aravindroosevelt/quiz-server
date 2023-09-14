@@ -4,6 +4,7 @@ const { createRoom } = require("./actions/createRoom");
 const { getRooms } = require("./actions/getRooms");
 const { joinRoom } = require("./actions/joinRoom");
 const { removeRoom } = require("./actions/removeRoom");
+const { startQuiz } = require("./actions/startQuiz");
 const { db } = require("./db");
 require("./models/index");
 
@@ -28,11 +29,17 @@ io.on("connection", (socket) => {
   socket.on("disconnect", (reason) => {
     removeRoom(socket, io);
   });
+  socket.on("startQuiz", (params) => {
+    startQuiz(socket, io, params);
+  });
+  socket.on("removeRoom", () => {
+    removeRoom(socket, io);
+  });
 });
 
 // cleanup();
 
 /* Database connection */
-db.sync()
-  .then(() => console.log(`DB connected successfully!`))
-  .catch((err) => console.log(err));
+// db.sync({ alter: true })
+//   .then(() => console.log(`DB connected successfully!`))
+//   .catch((err) => console.log(err));

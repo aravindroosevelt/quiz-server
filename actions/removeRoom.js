@@ -11,26 +11,37 @@ const removeRoom = async (socket, io) => {
       raw: true,
     });
     if (!room) return null;
-    await Player.destroy({
-      where: {
-        id: socket.id,
+    let res = await Player.update(
+      {
+        isActive: false,
       },
-    });
-    let playerAvailable = await Player.findOne({
+      {
+        where: {
+          id: socket.id,
+        },
+      }
+    );
+    let playersAvailable = await Player.findAll({
       where: {
         roomId: room?.["room.id"],
+        isActive: false,
       },
       raw: true,
     });
-    if (playerAvailable) {
-      io.to(room?.["room.name"]).emit("wins");
+    if (playersAvailable.length >= 2) {
+      io.to(room?.["room.name"]).emit("done");
       await Room.destroy({
         where: {
           id: room?.["room.id"],
         },
       });
+      await Player.destroy({
+        where: {
+          roomId: room?.["room.id"],
+        },
+      });
+      io.emit("roomDeleted");
     }
-    io.emit("roomDeleted");
   } catch (error) {
     console.log("=========== REMOVAL ERROR ==========");
     console.log(error);
