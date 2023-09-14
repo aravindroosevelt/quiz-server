@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { answer } = require("./actions/answer");
 const { cleanup } = require("./actions/cleanup");
 const { createRoom } = require("./actions/createRoom");
 const { getRooms } = require("./actions/getRooms");
@@ -34,6 +35,9 @@ io.on("connection", (socket) => {
   });
   socket.on("removeRoom", () => {
     removeRoom(socket, io);
+  });
+  socket.on("answer", (params) => {
+    answer(socket, io, params);
   });
 });
 
