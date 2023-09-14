@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 8000;
 /* listening */
 const io = require("socket.io")(PORT, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: [process.env.ORIGIN],
   },
 });
 
